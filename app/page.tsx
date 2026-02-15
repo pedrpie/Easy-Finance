@@ -1,9 +1,9 @@
-
+import LoginForm from "@/components/LoginForm/LoginForm"
 
 export default function Home() {
-  return(
+  return (
     <div>
-        
+      <LoginForm />
     </div>
   )
 }
