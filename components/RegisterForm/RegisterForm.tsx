@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link';
 import './RegisterForm.css'
 import { Button } from "@/components/ui/button";
@@ -15,7 +17,39 @@ import { Label } from "@/components/ui/label";
 
 import { Landmark } from "lucide-react";
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
 export default function RegisterForm() {
+  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const router = useRouter()
+
+  const createCredentials = async (event: any) => {
+    event.preventDefault();
+
+    const response = await fetch('http://localhost:3000/api/auth/register', {
+      method: 'POST',
+      headers: {
+        'ContentType': 'application/json'
+      },
+      body: JSON.stringify({
+        user,
+        email,
+        password,
+      })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      console.log('User created successfully')
+      router.push('/')
+    }
+  }
+
   return (
     <div className="flex h-screen">
 
@@ -50,6 +84,8 @@ export default function RegisterForm() {
                 <Input
                   id="username"
                   type="text"
+                  value={user}
+                  onChange={(e) => setUser(e.target.value)}
                   placeholder="JohnDoe"
                   required
                 />
@@ -59,6 +95,8 @@ export default function RegisterForm() {
                 <Input
                   id="email"
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="m@example.com"
                   required
                 />
@@ -66,24 +104,20 @@ export default function RegisterForm() {
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input 
+                  id="password" 
+                  type="password" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required />
               </div>
             </div>
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full cursor-pointer">
-            Login
-          </Button>
-          <Button variant="outline" className="w-full cursor-pointer">
-            Login with Google
+          <Button type="submit" onClick={createCredentials} className="w-full cursor-pointer">
+            Register
           </Button>
         </CardFooter>
       </Card>
