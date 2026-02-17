@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import {
   Sidebar,
@@ -18,6 +18,7 @@ import {
 
 export default function AppSidebar() {
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = useCallback(() => {
     document.cookie = `token=; path=/; max-age=0; SameSite=Strict`;
@@ -37,14 +38,19 @@ export default function AppSidebar() {
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <a href="#">
+                  <SidebarMenuButton
+                    asChild
+                    isActive={
+                      pathname?.startsWith("/HomePage") || pathname === "/"
+                    }
+                  >
+                    <a href="/HomePage">
                       <span className="text-lg">Dashboard</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild >
                     <a href="#">
                       <span className="text-lg">Transactions</span>
                     </a>
@@ -59,16 +65,24 @@ export default function AppSidebar() {
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <a href="#">
-                      <span className="text-lg">Depositar</span>
+                  <SidebarMenuButton 
+                    asChild
+                    isActive={
+                      pathname?.startsWith("/DepositPage") || pathname === "/DepositPage"
+                    }>
+                    <a href="/DepositPage">
+                      <span className="text-lg">Deposit</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <a href="#">
-                      <span className="text-lg">Sacar</span>
+                  <SidebarMenuButton 
+                  asChild
+                  isActive={
+                    pathname?.startsWith("/WithdrawPage") || pathname === "/WithdrawPage"
+                  }>
+                    <a href="/WithdrawPage">
+                      <span className="text-lg">Withdraw</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -80,7 +94,7 @@ export default function AppSidebar() {
         <SidebarFooter>
           <Button
             variant="destructive"
-            className="text-2xl"
+            className="text-2xl hover:bg-red-500 cursor-pointer active:bg-red-600 focus:ring-red-300"
             onClick={handleLogout}
           >
             Logout
