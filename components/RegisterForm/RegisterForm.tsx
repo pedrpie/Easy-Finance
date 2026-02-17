@@ -14,11 +14,10 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
 import { Landmark } from "lucide-react";
-
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import TextType from '../TextType/TextType';
 
 export default function RegisterForm() {
   const [user, setUser] = useState('');
@@ -27,7 +26,7 @@ export default function RegisterForm() {
 
   const router = useRouter()
 
-  const createCredentials = async (event: any) => {
+  const createCredentials = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     const response = await fetch('http://localhost:3000/api/auth/register', {
@@ -41,8 +40,6 @@ export default function RegisterForm() {
         password,
       })
     });
-
-    const data = await response.json();
 
     if (response.ok) {
       console.log('User created successfully')
@@ -58,69 +55,81 @@ export default function RegisterForm() {
           <Landmark size={60} />
           <p className="text-5xl mt-5">Welcome to</p>
           <h1 className="text-8xl">Easy Finance</h1>
-          <p className="text-2xl mt-10">Your finance organizer</p>
+          <TextType
+            text={["Your finance organizer", "Track your expenses", "Build wealth smarter"]}
+            typingSpeed={25}
+            pauseDuration={2000}
+            showCursor
+            cursorCharacter="_"
+            deletingSpeed={25}
+            cursorBlinkDuration={0.5}
+            className="text-3xl mt-10"
+          />
         </div>
       </div>
 
-      <Card className="w-[30%]">
-        <CardHeader>
-          <CardTitle className="text-3xl">Create your account</CardTitle>
-          <CardDescription>
-            Enter a new username, email and password below to login to your account
-          </CardDescription>
-          <CardAction>
-            <Link href='/'>
-                <Button variant="link" className="cursor-pointer">
-                Sign In
-                </Button>
-            </Link>
-          </CardAction>
-        </CardHeader>
-        <CardContent>
-          <form>
-            <div className="flex flex-col gap-6">
-            <div className="grid gap-2">
-                <Label htmlFor="email">Username</Label>
-                <Input
-                  id="username"
-                  type="text"
-                  value={user}
-                  onChange={(e) => setUser(e.target.value)}
-                  placeholder="JohnDoe"
-                  required
-                />
-              </div>
+      <div className='w-[30%] flex justify-center items-center'>
+        <Card className="w-110 mb-30">
+          <CardHeader>
+            <CardTitle className="text-3xl">Create your account</CardTitle>
+            <CardDescription>
+              Enter a new username, email and password below to login to your account
+            </CardDescription>
+            <CardAction>
+              <Link href='/'>
+                  <Button variant="link" className="cursor-pointer">
+                  Sign In
+                  </Button>
+              </Link>
+            </CardAction>
+          </CardHeader>
+          <CardContent>
+            <form>
+              <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="m@example.com"
-                  required
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="email">Username</Label>
+                  <Input
+                    id="username"
+                    type="text"
+                    value={user}
+                    onChange={(e) => setUser(e.target.value)}
+                    placeholder="JohnDoe"
+                    required
+                  />
                 </div>
-                <Input 
-                  id="password" 
-                  type="password" 
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required />
+                <div className="grid gap-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="m@example.com"
+                    required
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <div className="flex items-center">
+                    <Label htmlFor="password">Password</Label>
+                  </div>
+                  <Input 
+                    id="password" 
+                    type="password" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required />
+                </div>
               </div>
-            </div>
-          </form>
-        </CardContent>
-        <CardFooter className="flex-col gap-2">
-          <Button type="submit" onClick={createCredentials} className="w-full cursor-pointer">
-            Register
-          </Button>
-        </CardFooter>
-      </Card>
+            </form>
+          </CardContent>
+          <CardFooter className="flex-col gap-2">
+            <Button type="submit" onClick={createCredentials} className="w-full cursor-pointer">
+              Register
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+
     </div>
   );
 }
