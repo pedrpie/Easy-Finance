@@ -52,7 +52,7 @@ export default function AppSidebar() {
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild >
                     <a href="#">
-                      <span className="text-lg">Transactions</span>
+                      <span className="text-lg">History</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -86,19 +86,24 @@ export default function AppSidebar() {
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton 
+                  asChild>
+                    <Button
+                      variant="destructive"
+                      className="text-[17px] mt-10 hover:bg-red-500 cursor-pointer active:bg-red-600 focus:ring-red-300"
+                      onClick={handleLogout}>
+                      Logout
+                    </Button>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
 
         <SidebarFooter>
-          <Button
-            variant="destructive"
-            className="text-2xl hover:bg-red-500 cursor-pointer active:bg-red-600 focus:ring-red-300"
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
+          
         </SidebarFooter>
       </Sidebar>
     </div>
